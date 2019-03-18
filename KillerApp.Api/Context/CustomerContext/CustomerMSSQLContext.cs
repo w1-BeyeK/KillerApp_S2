@@ -99,5 +99,15 @@ namespace KillerApp.Api.Context.CustomerContext
                 };
             }
         }
+
+        Customer IGenericContext<Customer>.Insert(Customer obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        Customer IGenericContext<Customer>.Update(Customer obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

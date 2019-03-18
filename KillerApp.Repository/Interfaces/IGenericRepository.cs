@@ -10,8 +10,8 @@ namespace KillerApp.Repository.Interfaces
         IEnumerable<TEntity> GetAll();
         IEnumerable<TEntity> GetWithFilter(Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
-        void Insert(TEntity obj);
-        void Update(TEntity obj);
+        TEntity Insert(TEntity obj);
+        TEntity Update(TEntity obj);
         void Delete(TEntity obj);
     }
 }

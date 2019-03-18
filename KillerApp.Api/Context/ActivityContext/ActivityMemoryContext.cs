@@ -29,12 +29,12 @@ namespace KillerApp.Api.Context.ActivityContext
             throw new NotImplementedException();
         }
 
-        public bool Insert(Activity obj)
+        public Activity Insert(Activity obj)
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(Activity obj)
+        public Activity Update(Activity obj)
         {
             throw new NotImplementedException();
         }

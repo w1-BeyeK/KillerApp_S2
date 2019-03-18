@@ -39,5 +39,15 @@ namespace KillerApp.Api.Context.AdContext
         {
             throw new NotImplementedException();
         }
+
+        Ad IGenericContext<Ad>.Insert(Ad obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        Ad IGenericContext<Ad>.Update(Ad obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

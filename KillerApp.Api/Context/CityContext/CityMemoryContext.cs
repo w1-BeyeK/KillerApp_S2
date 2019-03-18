@@ -39,5 +39,15 @@ namespace KillerApp.Api.Context.CityContext
         {
             throw new NotImplementedException();
         }
+
+        City IGenericContext<City>.Insert(City obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        City IGenericContext<City>.Update(City obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

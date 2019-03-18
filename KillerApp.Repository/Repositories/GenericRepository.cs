@@ -30,14 +30,14 @@ namespace KillerApp.Repository.Repositories
             return this.gc.GetWithFilter(filter, orderBy);
         }
 
-        public void Insert(T obj)
+        public T Insert(T obj)
         {
-            this.gc.Insert(obj);
+            return this.gc.Insert(obj);
         }
 
-        public void Update(T obj)
+        public T Update(T obj)
         {
-            this.gc.Update(obj);
+            return this.gc.Update(obj);
         }
     }
 }

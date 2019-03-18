@@ -38,5 +38,15 @@ namespace KillerApp.Api.Context.ActivityContext
         {
             throw new NotImplementedException();
         }
+
+        Activity IGenericContext<Activity>.Insert(Activity obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        Activity IGenericContext<Activity>.Update(Activity obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

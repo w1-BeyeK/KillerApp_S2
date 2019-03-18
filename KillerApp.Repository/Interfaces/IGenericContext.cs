@@ -13,8 +13,8 @@ namespace KillerApp.Repository.Interfaces
 
         TEntity FindById(TEntity obj);
 
-        bool Insert(TEntity obj);
-        bool Update(TEntity obj);
+        TEntity Insert(TEntity obj);
+        TEntity Update(TEntity obj);
         bool Delete(TEntity obj);
     }
 }

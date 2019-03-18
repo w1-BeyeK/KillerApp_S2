@@ -47,5 +47,15 @@ namespace KillerApp.Api.Context.AdminstratorContext
         {
             throw new NotImplementedException();
         }
+
+        Administrator IGenericContext<Administrator>.Insert(Administrator obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        Administrator IGenericContext<Administrator>.Update(Administrator obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

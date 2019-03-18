@@ -1,5 +1,6 @@
 ﻿using KillerApp.Api.Interface;
 using KillerApp.Api.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,22 +17,48 @@ namespace KillerApp.Api.Controllers
 
         public UserController(UnitOfWork uow)
         {
-            this.uow = uow;
+            this.uow = UnitOfWork.GetInstance();
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            var user = uow.UserRepository.GetWithFilter(u => u.Id == id).FirstOrDefault();
-            uow.UserRepository.Delete(user);
+            try
+            {
+                var user = uow.UserRepository.GetWithFilter(u => u.Id == id).FirstOrDefault();
 
-            return Ok();
+                if (user == null)
+                    return BadRequest("User does not exist");
+
+                uow.UserRepository.Delete(user);
+
+                return NoContent();
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(uow.UserRepository.GetAll());
+            try
+            {
+                return Ok(uow.UserRepository.GetAll());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("test")]
@@ -51,23 +78,60 @@ namespace KillerApp.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(long id)
         {
-            return Ok(uow.UserRepository.GetWithFilter(u => u.Id == id).FirstOrDefault());
+            try
+            {
+                return Ok(uow.UserRepository.GetWithFilter(u => u.Id == id).FirstOrDefault());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
-        public IActionResult Insert(User obj)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult Insert(KillerApp.Api.Models.User obj)
         {
-            uow.UserRepository.Insert(obj);
-
-            return Ok();
+            try
+            {
+                User user = uow.UserRepository.GetWithFilter(u => u.Name == obj.Name || u.Email == obj.Email).FirstOrDefault();
+                if (user != null)
+                    return BadRequest("User already exists");
+                
+                return Ok(uow.UserRepository.Insert(obj));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
+            
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
-        public IActionResult Update(User obj, long id)
+        public IActionResult Update(KillerApp.Api.Models.User obj, long id)
         {
-            uow.UserRepository.Update(obj);
+            try
+            {
+                if (obj.Id != id)
+                    return BadRequest("Ids do not match");
 
-            return Ok();
+                User user = uow.UserRepository.GetWithFilter(u => u.Id == id).FirstOrDefault();
+                if (user == null)
+                    return BadRequest("User does not exist");
+                
+                return Ok(uow.UserRepository.Update(obj));
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

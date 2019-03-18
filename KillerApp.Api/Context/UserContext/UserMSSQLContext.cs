@@ -39,5 +39,15 @@ namespace KillerApp.Api.Context.UserContext
         {
             throw new NotImplementedException();
         }
+
+        User IGenericContext<User>.Insert(User obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        User IGenericContext<User>.Update(User obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

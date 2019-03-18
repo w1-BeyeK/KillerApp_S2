@@ -77,7 +77,7 @@ namespace KillerApp.Api.Context.UserContext
 
         public IEnumerable<User> GetAll()
         {
-            return Items;
+            return GetWithFilter(orderBy: (user) => user.OrderBy(x => x.Name));
         }
 
         public IEnumerable<User> GetWithFilter(Expression<Func<User, bool>> filter = null, Func<IQueryable<User>, IOrderedQueryable<User>> orderBy = null)
@@ -89,39 +89,36 @@ namespace KillerApp.Api.Context.UserContext
 
             if (orderBy != null)
                 return orderBy(query).ToList();
-            return query.ToList();
+            return query.OrderBy(u => u.Name).ToList();
         }
 
-        public bool Insert(User obj)
+        public User Insert(User obj)
         {
             try
             {
+                long id = Items.Count > 0 ? Items.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1 : 1;
+                obj.Id = id;
                 Items.Add(obj);
-                return true;
+                return Items.OrderByDescending(u => u.Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return false;
+                return default(User);
             }
         }
 
-        public void SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(User obj)
+        public User Update(User obj)
         {
             try
             {
                 var user = Items.FirstOrDefault(u => u.Id == obj.Id);
                 Items.Remove(user);
                 Items.Add(obj);
-                return true;
+                return obj;
             }
             catch (Exception)
             {
-                return false;
+                return default(User);
             }
         }
     }
