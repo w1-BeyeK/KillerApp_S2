@@ -37,7 +37,8 @@ namespace KillerApp.Api
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200")
+                    builder//.WithOrigins(new string[] { "http://localhost:4200", "http://i409368.hera.fhict.nl/" })
+                        .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
